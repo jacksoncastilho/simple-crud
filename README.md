@@ -1,6 +1,4 @@
-# bot-reCaptcha
-
-### Web Page
+# simple-crud
 
 #### Requirements
 - PHP >= 7.4
@@ -50,13 +48,3 @@ CREATE TABLE users (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
-
-## Reference
-https://www.youtube.com/watch?v=kG_3LZ2OgBI&ab_channel=WDEV</br>
-https://www.google.com/recaptcha/admin/</br>
-https://developers.google.com/recaptcha/docs/display</br>
-https://developers.google.com/recaptcha/docs/verify</br>
-https://www.selenium.dev/documentation/</br>
-https://www.browserstack.com/guide/python-selenium-webdriver-manager</br>
-https://anti-captcha.com/pt/apidoc</br>
-https://configu.com/blog/env-in-php-the-basics-and-a-quick-tutorial/</br>
