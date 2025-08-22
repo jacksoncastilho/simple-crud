@@ -17,16 +17,16 @@ require_once __DIR__. '/backend.php';
             PUBLIC_KEY_V2: "<?php echo $_ENV['PUBLIC_KEY_V2']; ?>"
         }
     </script>
+    <style>
+        input {
+            display: block;
+            margin-bottom: 5px;
+        }
+        #submit {
+            margin-top: 5px;
+        }
+    </style>
 </head>
-<style>
-    input {
-        display: block;
-        margin-bottom: 5px;
-    }
-    #submit {
-        margin-top: 5px;
-    }
-</style>
 <body>
     <nav>
         <a href="/simple-crud/index.php">Home</a>

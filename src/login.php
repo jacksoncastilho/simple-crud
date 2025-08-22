@@ -12,16 +12,16 @@ require_once __DIR__. '/backend.php';
     <title>Login</title>
 
     <script> window.env = {PUBLIC_KEY_V3: "<?php echo $_ENV['PUBLIC_KEY_V3']; ?>"}</script>
+    <style>
+        input {
+            display: block;
+            margin-bottom: 5px;
+        }
+        #submit {
+            margin-top: 5px;
+        }
+    </style>
 </head>
-<style>
-    input {
-        display: block;
-        margin-bottom: 5px;
-    }
-    #submit {
-        margin-top: 5px;
-    }
-</style>
 <body>
     <nav>
         <a href="/simple-crud/index.php">Home</a>

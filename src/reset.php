@@ -12,7 +12,13 @@ require_once __DIR__. '/backend.php';
     <title>Document</title>
     
     <script> window.env = {PUBLIC_KEY_V3: "<?php echo $_ENV['PUBLIC_KEY_V3']; ?>"}</script>
+    <style>
+        #submit {
+            margin-top: 5px;
+        }
+    </style>
 </head>
+
 <body>
     <nav>
         <a href="/simple-crud/index.php">Home</a>
