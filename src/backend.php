@@ -7,7 +7,7 @@ $dotenv->load();
 require_once __DIR__. '/connection_db.php';
 
 function signup($pdo) {
-    if (recaptchaV2() && recaptchaV3()) {
+    if (recaptchaVerification()) {
         try {
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -30,7 +30,7 @@ function signup($pdo) {
 }
 
 function login($pdo) {
-    if (recaptchaV2() && recaptchaV3()) {
+    if (recaptchaVerification()) {
         try {
             $username = $_POST['username'];
 
@@ -52,7 +52,7 @@ function login($pdo) {
 }
 
 function resetdb($pdo) {
-    if (recaptchaV2() && recaptchaV3()) {
+    if (recaptchaVerification()) {
         try {
             $pdo->exec("TRUNCATE TABLE users RESTART IDENTITY;");
 
@@ -84,6 +84,50 @@ function recaptchaV3() {
     $responseV3 = file_get_contents($url . '?secret=' . $recaptcha_secret . '&response=' . $grResponse);
 
     return json_decode($responseV3)->success && json_decode($responseV3)->score >= $_ENV['SCORE_V3'];
+}
+
+function loadRecaptcha() {
+    $load = "";
+
+    switch($_ENV['RECAPTCHA_VERSION']) {
+        case "v2":
+            $load = [
+                "scriptRecaptcha"=> "<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>", 
+                "divRecaptchaV2"=> sprintf("<div class=\"g-recaptcha\" data-sitekey=\"%s\"></div>", $_ENV['PUBLIC_KEY_V2'])
+            ];
+            break;
+        case "v3":
+            $load = [
+                "scriptRecaptcha"=> sprintf("<script src=\"https://www.google.com/recaptcha/api.js?render=%s\"></script>\n<script>window.env = {PUBLIC_KEY_V3: \"%s\"}</script>", $_ENV['PUBLIC_KEY_V3'], $_ENV['PUBLIC_KEY_V3'])
+            ];
+            break;
+        case "both":
+            $load = [
+                "scriptRecaptcha"=> sprintf("<script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>\n<script src=\"https://www.google.com/recaptcha/api.js?render=%s\"></script><script>window.env = {PUBLIC_KEY_V3: \"%s\"}</script>", $_ENV['PUBLIC_KEY_V3'], $_ENV['PUBLIC_KEY_V3']),
+                "divRecaptchaV2"=> sprintf("<div class=\"g-recaptcha\" data-sitekey=\"%s\"></div>", $_ENV['PUBLIC_KEY_V2'])
+            ];
+            break;
+    }
+    
+    return $load;
+}
+
+function recaptchaVerification() {
+    $bRecaptchaVerification = false;
+
+    switch($_ENV['RECAPTCHA_VERSION']) {
+        case "v2":
+            $bRecaptchaVerification = recaptchaV2();
+            break;
+        case "v3":
+            $bRecaptchaVerification = recaptchaV3();
+            break;
+        case "both":
+            $bRecaptchaVerification = recaptchaV2() && recaptchaV3();
+            break;
+    }
+
+    return $bRecaptchaVerification;
 }
 
 if ($_GET['form']) {

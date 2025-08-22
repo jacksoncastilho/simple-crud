@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__. '/backend.php';
+
+$aloadRecaptcha = loadRecaptcha();
 ?>
 
 <!DOCTYPE html>
@@ -7,11 +9,8 @@ require_once __DIR__. '/backend.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $_ENV['PUBLIC_KEY_V3']?>"></script>
+    <?php echo $aloadRecaptcha["scriptRecaptcha"] ?? ""?>
     <title>Login</title>
-
-    <script> window.env = {PUBLIC_KEY_V3: "<?php echo $_ENV['PUBLIC_KEY_V3']; ?>"}</script>
     <style>
         input {
             display: block;
@@ -35,7 +34,7 @@ require_once __DIR__. '/backend.php';
     <form method="post" id="login-form">
         <input type="text" name="username" id="username" placeholder="Username">
         <input type="password" name="password" id="password" placeholder="Password">
-        <div class="g-recaptcha" data-sitekey="<?php echo $_ENV['PUBLIC_KEY_V2'] ?>"></div>
+        <?php echo $aloadRecaptcha["divRecaptchaV2"] ?? ""?>
         <button id="submit" type="submit">Login</button>
     </form>
     <div id="message"></div>
