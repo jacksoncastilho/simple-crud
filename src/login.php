@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
+<style>
+    input {
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
 <body>
     <nav>
         <a href="/simple-crud/index.php">Home</a>
