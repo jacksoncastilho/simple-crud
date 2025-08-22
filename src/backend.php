@@ -52,12 +52,16 @@ function login($pdo) {
 }
 
 function resetdb($pdo) {
-    try {
-        $pdo->exec("TRUNCATE TABLE users RESTART IDENTITY;");
+    if (recaptchaV2() && recaptchaV3()) {
+        try {
+            $pdo->exec("TRUNCATE TABLE users RESTART IDENTITY;");
 
-        echo json_encode(array("success"=> true, "message"=> "Database reset successfully! " . date('Y-m-d H:i:s')));
-    } catch (PDOException $e) {
-        echo json_encode(array("success"=> false, "message"=> "Error Message: " . $e->getMessage()));
+            echo json_encode(array("success"=> true, "message"=> "Database reset successfully! " . date('Y-m-d H:i:s')));
+        } catch (PDOException $e) {
+            echo json_encode(array("success"=> false, "message"=> "Error Message: " . $e->getMessage()));
+        }
+    } else {
+        echo json_encode(array("success"=> false, "message"=> "Action failed because a bot was detected!"));
     }
 }
 
