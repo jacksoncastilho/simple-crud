@@ -21,6 +21,7 @@
         <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirm your password">
         <button id="submit" type="submit">Sign Up</button>
     </form>
+    <div id="message"></div>
 </body>
 <script src="/simple-crud/js/script.js"></script>
 </html>

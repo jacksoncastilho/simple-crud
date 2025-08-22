@@ -20,6 +20,7 @@
         <input type="password" name="password" id="password" placeholder="Password">
         <button id="submit" type="submit">Login</button>
     </form>
+    <div id="message"></div>
 </body>
-<script src="./js/script.js"></script>
+<script src="/simple-crud/js/script.js"></script>
 </html>

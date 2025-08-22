@@ -19,6 +19,7 @@
     <form method="post" id="reset-form">
         <button id="submit" type="submit">Reset</button>
     </form>
+    <div id="message"></div>
 </body>
-<script src="./js/script.js"></script>
+<script src="/simple-crud/js/script.js"></script>
 </html>

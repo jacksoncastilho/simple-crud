@@ -10,17 +10,22 @@ function signup($pdo) {
     try {
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $cofirmPassword = $_POST['confirm-password'];
 
-        $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-        $stmt->execute(['username' => $username, 'password' => $password]);
-
-        echo "Registration completed successfully!";
+        if ($password == $cofirmPassword) {
+            $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+            $stmt->execute(['username' => $username, 'password' => $password]);
+    
+            echo json_encode(array("success"=> true, "message"=> "Registration completed successfully!"));
+        } else {
+            echo json_encode(array("success"=> false, "message"=> "Sign Up Failled! Passwords are not the same"));
+        }
     } catch (PDOException $e) {
-        echo "Sign Up Failled! Error Message: " . $e->getMessage();
+        echo json_encode(array("success"=> false, "message"=> "Error Message: " . $e->getMessage()));
     }
 }
 
-function login($pdo, $response_data) {
+function login($pdo) {
     try {
         $username = $_POST['username'];
 
@@ -29,30 +34,31 @@ function login($pdo, $response_data) {
         $user = $stmt->fetch();
 
         if ($user && $_POST['password'] == $user['password']) {
-            echo "Login successful!";
+            echo json_encode(array("success"=> true, "message"=> "Login successful!"));
         } else {
-            echo "Login failed. Check your credentials!";
+            echo json_encode(array("success"=> false, "message"=> "Login failed. Check your credentials!"));
         }
     } catch (PDOException $e) {
-        echo "Sign Up Failled! Error Message: " . $e->getMessage();
+        echo json_encode(array("success"=> false, "message"=> "Error Message: " . $e->getMessage()));
     }
 }
 
 function resetdb($pdo) {
     try {
         $pdo->exec("TRUNCATE TABLE users RESTART IDENTITY;");
-        echo "Database reset successfully! " . date('Y-m-d H:i:s');
+
+        echo json_encode(array("success"=> true, "message"=> "Database reset successfully! " . date('Y-m-d H:i:s')));
     } catch (PDOException $e) {
-        die("Error resetting database: " . htmlspecialchars($e->getMessage()));
+        echo json_encode(array("success"=> false, "message"=> "Error Message: " . $e->getMessage()));
     }
 }
 
-if($_POST) {
-    if ($_GET['form'] == "signup-form") {
-        signup($pdo, $response_data);
-    } else if ($_GET['form'] == "login-form") {
-        login($pdo, $response_data);
-    } else if ($_GET['form'] == "reset-form") {
-        resetdb($pdo);
-    }
+$form = $_GET['form'];
+
+if ($form == "signup-form") {
+    signup($pdo);
+} else if ($form == "login-form") {
+    login($pdo);
+} else if ($form == "reset-form") {
+    resetdb($pdo);
 }
