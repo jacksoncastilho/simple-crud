@@ -53,12 +53,30 @@ function resetdb($pdo) {
     }
 }
 
-$form = $_GET['form'];
+function recaptcha() {
+    $url = "https://www.google.com/recaptcha/api/siteverify";
+    $recaptcha_secret = $_ENV['PRIVATE_KEY_V3'];
+    $recaptcha_response = $_POST['g-recaptcha-response'];
 
-if ($form == "signup-form") {
-    signup($pdo);
-} else if ($form == "login-form") {
-    login($pdo);
-} else if ($form == "reset-form") {
-    resetdb($pdo);
+    $response = file_get_contents($url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+
+    return json_decode($response);
+}
+
+if ($_GET['form']) {
+    $form = $_GET['form'];
+
+    $response_data = recaptcha();
+
+    if ($response_data->success && $response_data->score >= 0.5) {
+        if ($form == "signup-form") {
+            signup($pdo);
+        } else if ($form == "login-form") {
+            login($pdo);
+        } else if ($form == "reset-form") {
+            resetdb($pdo);
+        }
+    } else {
+        echo json_encode(array("success"=> false, "message"=> "Action failed because a bot was detected! Score: " . ($response_data->score ?? 'N/A')));
+    }
 }
