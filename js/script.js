@@ -13,6 +13,9 @@ function formValidation(token) {
             if(serverReturn.success) {
                 setTimeout(() => {
                     switch (form.id) {
+                        case "login-form":
+                            window.location.href = "/simple-crud/index.php"
+                            break
                         case "signup-form":
                             window.location.href = "/simple-crud/src/login.php"
                             break
