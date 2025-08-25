@@ -31,17 +31,23 @@ function formValidation(token) {
     }
 
     xhttp.open("POST", "/simple-crud/src/backend.php?form="+form.id, true)
-    xhttp.setRequestHeader('gr-response', token);
+    if (token) {
+        xhttp.setRequestHeader('gr-response', token);
+    }
     xhttp.send(new FormData(form))    
 }
 
 form.addEventListener("submit", function (event){
     event.preventDefault()
     
-    grecaptcha.ready(function() {
-        grecaptcha.execute(window.env.PUBLIC_KEY_V3, {action: action}).then(function(token) {
+    if (window?.env?.PUBLIC_KEY_V3) {
+        grecaptcha.ready(function() {
+            grecaptcha.execute(window.env.PUBLIC_KEY_V3, {action: action}).then(function(token) {
 
-            formValidation(token)
+                formValidation(token)
+            })
         })
-    })
+    } else {
+        formValidation()
+    }
 })

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__. '/backend.php';
 
-$aloadRecaptcha = loadRecaptcha();
+$aLoadRecaptcha = loadRecaptcha();
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ $aloadRecaptcha = loadRecaptcha();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php echo $aloadRecaptcha["scriptRecaptcha"] ?? ""?>
+    <?php echo $aLoadRecaptcha["scriptRecaptcha"] ?>
     <title>Sign Up</title>
     <style>
         input {
@@ -35,7 +35,7 @@ $aloadRecaptcha = loadRecaptcha();
         <input type="text" name="username" id="username" placeholder="Username">
         <input type="password" name="password" id="password" placeholder="Password">
         <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirm your password">
-        <?php echo $aloadRecaptcha["divRecaptchaV2"] ?? ""?>
+        <?php echo $aLoadRecaptcha["divRecaptchaV2"] ?? ""?>
         <button id="submit" type="submit">Sign Up</button>
     </form>
     <div id="message"></div>

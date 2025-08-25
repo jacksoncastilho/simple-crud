@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__. '/backend.php';
 
-$aloadRecaptcha = loadRecaptcha();
+$aLoadRecaptcha = loadRecaptcha();
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ $aloadRecaptcha = loadRecaptcha();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php echo $aloadRecaptcha["scriptRecaptcha"] ?? ""?>
+    <?php echo $aLoadRecaptcha["scriptRecaptcha"] ?>
     <title>Document</title>
     <style>
         #submit {
@@ -30,7 +30,7 @@ $aloadRecaptcha = loadRecaptcha();
     <hr>
     <p>This action is intended to reset the entire database.</p>
     <form method="post" id="reset-form">
-        <?php echo $aloadRecaptcha["divRecaptchaV2"] ?? ""?>
+        <?php echo $aLoadRecaptcha["divRecaptchaV2"] ?? ""?>
         <button id="submit" type="submit">Reset</button>
     </form>
     <div id="message"></div>
